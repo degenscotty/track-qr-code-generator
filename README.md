@@ -1,52 +1,55 @@
+![alt text](public/images/PopSkully_Tag.jpg)
+![alt text](public/images/screenshot.png)
+
 # QR Code Generator
 
 A professional web application for creating and printing QR codes for projects. This easy-to-use tool helps you quickly generate QR codes with customized descriptions that can be printed or saved as PDF.
 
 ## Features
 
-- **Simple Form Interface**: Easily enter project name, URL, and description
-- **Instant Generation**: Generate QR codes with a single click
-- **Print-Ready Output**: Automatically opens a print-friendly page
-- **Responsive Design**: Works on desktop and mobile devices
-- **Accessibility**: Built with a11y best practices in mind
+-   **Simple Form Interface**: Easily enter project name, URL, and description
+-   **Instant Generation**: Generate QR codes with a single click
+-   **Print-Ready Output**: Automatically opens a print-friendly page
+-   **Responsive Design**: Works on desktop and mobile devices
+-   **Accessibility**: Built with a11y best practices in mind
 
 ## Technology Stack
 
-- React 19
-- Tailwind CSS for styling
-- QRCode.js for QR code generation
+-   React 19
+-   Tailwind CSS for styling
+-   QRCode.js for QR code generation
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.0 or higher
-- npm or yarn
+-   Node.js 18.0 or higher
+-   npm or yarn
 
 ### Installation
 
 1. Clone the repository
 
-   ```bash
-   git clone https://github.com/yourusername/qr-code-generator.git
-   cd qr-code-generator
-   ```
+    ```bash
+    git clone https://github.com/yourusername/qr-code-generator.git
+    cd qr-code-generator
+    ```
 
 2. Install dependencies
 
-   ```bash
-   npm install
-   # or
-   yarn
-   ```
+    ```bash
+    npm install
+    # or
+    yarn
+    ```
 
 3. Start the development server
 
-   ```bash
-   npm start
-   # or
-   yarn start
-   ```
+    ```bash
+    npm start
+    # or
+    yarn start
+    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
