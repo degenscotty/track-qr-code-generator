@@ -2,8 +2,10 @@ import { useState } from "react"
 import QRCodeForm from "../components/QRCodeForm"
 import Card from "../components/Card"
 import { generateQRCodeAndPrint } from "../utils/qrCodeGenerator"
+import { useTheme } from "../context/ThemeContext"
 
 const Home = () => {
+    const theme = useTheme()
     const [isGenerating, setIsGenerating] = useState(false)
 
     const handleGenerateQR = async (formData) => {
@@ -22,17 +24,29 @@ const Home = () => {
     return (
         <>
             <Card>
-                <h2 className="text-xl font-semibold text-gray-800 mb-6">Create a New QR Code</h2>
+                <h2
+                    className="text-xl font-semibold mb-6"
+                    style={{
+                        color: theme.colors.text.primary,
+                        fontFamily: theme.typography.fontFamily.title,
+                    }}
+                >
+                    Create a New QR Code
+                </h2>
                 <QRCodeForm onGenerateQR={handleGenerateQR} />
 
                 {isGenerating && (
                     <div className="mt-4 flex justify-center">
-                        <div className="inline-flex items-center px-4 py-2 text-sm leading-5 font-medium text-blue-700">
+                        <div
+                            className="inline-flex items-center px-4 py-2 text-sm leading-5 font-medium"
+                            style={{ color: theme.colors.primary }}
+                        >
                             <svg
-                                className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-700"
+                                className="animate-spin -ml-1 mr-2 h-4 w-4"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
+                                style={{ color: theme.colors.primary }}
                             >
                                 <circle
                                     className="opacity-25"
@@ -55,9 +69,26 @@ const Home = () => {
             </Card>
 
             <div className="mt-6">
-                <Card className="bg-blue-50 border-blue-100">
-                    <h3 className="text-lg font-medium text-blue-800 mb-2">How It Works</h3>
-                    <ol className="list-decimal list-inside text-sm text-blue-700 space-y-2">
+                <Card
+                    className="border-gray-700"
+                    style={{ backgroundColor: theme.colors.cardAltBg }}
+                >
+                    <h3
+                        className="text-lg font-medium mb-2"
+                        style={{
+                            color: theme.colors.text.primary,
+                            fontFamily: theme.typography.fontFamily.subtitle,
+                        }}
+                    >
+                        How It Works
+                    </h3>
+                    <ol
+                        className="list-decimal list-inside text-sm space-y-2"
+                        style={{
+                            color: theme.colors.text.secondary,
+                            fontFamily: theme.typography.fontFamily.body,
+                        }}
+                    >
                         <li>Enter your project details in the form above</li>
                         <li>Click "Generate QR Code" to create your custom QR code</li>
                         <li>A printable page will open in a new tab</li>

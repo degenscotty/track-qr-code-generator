@@ -1,7 +1,9 @@
 import { useState } from "react"
 import PropTypes from "prop-types"
+import { useTheme } from "../context/ThemeContext"
 
 const QRCodeForm = ({ onGenerateQR }) => {
+    const theme = useTheme()
     const [projectName, setProjectName] = useState("")
     const [projectLink, setProjectLink] = useState("")
     const [projectDescription, setProjectDescription] = useState("")
@@ -9,11 +11,23 @@ const QRCodeForm = ({ onGenerateQR }) => {
     const [errors, setErrors] = useState({})
 
     const validateUrl = (url) => {
+        // If URL doesn't start with http:// or https://, add https://
+        let urlToCheck = url
+        if (!url.match(/^https?:\/\//i)) {
+            urlToCheck = `https://${url}`
+        }
+
         try {
-            const parsedUrl = new URL(url)
-            return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:"
+            const parsedUrl = new URL(urlToCheck)
+            return {
+                isValid: true,
+                url: urlToCheck,
+            }
         } catch (e) {
-            return false
+            return {
+                isValid: false,
+                url: urlToCheck,
+            }
         }
     }
 
@@ -28,8 +42,14 @@ const QRCodeForm = ({ onGenerateQR }) => {
 
         if (!projectLink) {
             newErrors.projectLink = "Project URL is required"
-        } else if (!validateUrl(projectLink)) {
-            newErrors.projectLink = "Please enter a valid URL (including http:// or https://)"
+        } else {
+            const { isValid, url } = validateUrl(projectLink)
+            if (!isValid) {
+                newErrors.projectLink = "Please enter a valid URL"
+            } else {
+                // Update the projectLink with the properly formatted URL
+                setProjectLink(url)
+            }
         }
 
         if (!projectDescription) {
@@ -40,19 +60,96 @@ const QRCodeForm = ({ onGenerateQR }) => {
 
         if (Object.keys(newErrors).length === 0) {
             setIsFormValid(true)
-            onGenerateQR({ projectName, projectLink, projectDescription })
+            // Use the formatted URL when submitting
+            const { url } = validateUrl(projectLink)
+            onGenerateQR({
+                projectName,
+                projectLink: url,
+                projectDescription,
+            })
         } else {
             setIsFormValid(false)
         }
     }
 
+    const inputStyles = (fieldName) => ({
+        width: "100%",
+        padding: "0.5rem 1rem",
+        backgroundColor: theme.colors.form.background,
+        color: theme.colors.text.primary,
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: errors[fieldName]
+            ? theme.colors.form.border.error
+            : theme.colors.form.border.default,
+        borderRadius: "0.375rem",
+        fontFamily: theme.typography.fontFamily.body,
+        outline: "none",
+        transition: "border-color 0.2s ease-in-out",
+    })
+
+    const inputHoverStyles = {
+        "&:hover": {
+            borderColor: theme.colors.primary,
+        },
+        "&:focus": {
+            borderColor: theme.colors.primary,
+            boxShadow: `0 0 0 2px ${theme.colors.primary}33`,
+        },
+    }
+
+    const labelStyles = {
+        display: "block",
+        marginBottom: "0.5rem",
+        fontSize: "0.875rem",
+        fontWeight: "500",
+        color: theme.colors.text.secondary,
+        fontFamily: theme.typography.fontFamily.subtitle,
+    }
+
+    const errorStyles = {
+        marginTop: "0.25rem",
+        fontSize: "0.875rem",
+        color: theme.colors.form.border.error,
+        fontFamily: theme.typography.fontFamily.body,
+    }
+
+    const buttonStyles = {
+        backgroundColor: theme.colors.secondary,
+        color: "black",
+        width: "100%",
+        padding: "0.75rem 1rem",
+        borderRadius: "1.5rem",
+        fontWeight: "700",
+        fontFamily: theme.typography.fontFamily.subtitle,
+        borderWidth: "2px",
+        borderStyle: "solid",
+        borderColor: theme.colors.primary,
+        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+        transition: "all 0.3s ease",
+    }
+
+    // Create a style element to inject CSS for hover/focus states
+    const createStyleElement = () => {
+        return (
+            <style>{`
+                .form-control:hover {
+                    border-color: ${theme.colors.primary} !important;
+                }
+                .form-control:focus {
+                    border-color: ${theme.colors.primary} !important;
+                    box-shadow: 0 0 0 2px ${theme.colors.primary}33 !important;
+                    outline: none !important;
+                }
+            `}</style>
+        )
+    }
+
     return (
         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+            {createStyleElement()}
             <div>
-                <label
-                    htmlFor="projectName"
-                    className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2"
-                >
+                <label htmlFor="projectName" style={labelStyles}>
                     Project Name
                 </label>
                 <input
@@ -61,48 +158,40 @@ const QRCodeForm = ({ onGenerateQR }) => {
                     value={projectName}
                     onChange={(e) => setProjectName(e.target.value)}
                     placeholder="Enter project name"
-                    className={`w-full px-4 py-2 md:py-3 border ${
-                        errors.projectName ? "border-red-500" : "border-gray-300"
-                    } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base`}
+                    style={inputStyles("projectName")}
+                    className="form-control"
                     aria-required="true"
                 />
                 {errors.projectName && (
-                    <p className="mt-1 text-sm md:text-base text-red-500" role="alert">
+                    <p style={errorStyles} role="alert">
                         {errors.projectName}
                     </p>
                 )}
             </div>
 
             <div>
-                <label
-                    htmlFor="projectLink"
-                    className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2"
-                >
+                <label htmlFor="projectLink" style={labelStyles}>
                     Project Website URL
                 </label>
                 <input
-                    type="url"
+                    type="text"
                     id="projectLink"
                     value={projectLink}
                     onChange={(e) => setProjectLink(e.target.value)}
-                    placeholder="https://example.com"
-                    className={`w-full px-4 py-2 md:py-3 border ${
-                        errors.projectLink ? "border-red-500" : "border-gray-300"
-                    } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base`}
+                    placeholder="Enter URL (e.g., google.com)"
+                    style={inputStyles("projectLink")}
+                    className="form-control"
                     aria-required="true"
                 />
                 {errors.projectLink && (
-                    <p className="mt-1 text-sm md:text-base text-red-500" role="alert">
+                    <p style={errorStyles} role="alert">
                         {errors.projectLink}
                     </p>
                 )}
             </div>
 
             <div>
-                <label
-                    htmlFor="projectDescription"
-                    className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2"
-                >
+                <label htmlFor="projectDescription" style={labelStyles}>
                     Project Description
                 </label>
                 <textarea
@@ -111,13 +200,12 @@ const QRCodeForm = ({ onGenerateQR }) => {
                     onChange={(e) => setProjectDescription(e.target.value)}
                     placeholder="Describe your project"
                     rows="4"
-                    className={`w-full px-4 py-2 md:py-3 border ${
-                        errors.projectDescription ? "border-red-500" : "border-gray-300"
-                    } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base`}
+                    style={inputStyles("projectDescription")}
+                    className="form-control"
                     aria-required="true"
                 />
                 {errors.projectDescription && (
-                    <p className="mt-1 text-sm md:text-base text-red-500" role="alert">
+                    <p style={errorStyles} role="alert">
                         {errors.projectDescription}
                     </p>
                 )}
@@ -125,10 +213,11 @@ const QRCodeForm = ({ onGenerateQR }) => {
 
             <button
                 type="submit"
-                className="w-full py-3 md:py-4 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium md:text-lg rounded-md shadow transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 md:mt-4"
+                style={buttonStyles}
                 aria-label="Generate QR code"
+                className="hover:bg-white hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-2 md:mt-4"
             >
-                Generate QR Code
+                GENERATE A QR CODE
             </button>
         </form>
     )

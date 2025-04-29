@@ -1,13 +1,16 @@
-import AppLayout from "./layouts/AppLayout";
-import Home from "./pages/Home";
-import "./App.css";
+import AppLayout from "./layouts/AppLayout"
+import Home from "./pages/Home"
+import "./App.css"
+import { ThemeProvider } from "./context/ThemeContext"
 
 function App() {
-  return (
-    <AppLayout>
-      <Home />
-    </AppLayout>
-  );
+    return (
+        <ThemeProvider>
+            <AppLayout>
+                <Home />
+            </AppLayout>
+        </ThemeProvider>
+    )
 }
 
-export default App;
+export default App
