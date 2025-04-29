@@ -16,7 +16,7 @@ const AppLayout = ({ children }) => {
             }}
         >
             {/* Semi-transparent overlay */}
-            <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-20 z-0"></div>
 
             <div className="w-full max-w-lg md:max-w-xl lg:max-w-2xl relative z-10">
                 <header className="mb-8 text-center">
