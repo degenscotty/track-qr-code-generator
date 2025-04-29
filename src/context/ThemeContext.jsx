@@ -3,8 +3,8 @@ import { createContext, useContext } from "react"
 // Define theme colors and typography
 const themeValues = {
     colors: {
-        primary: "#56C3EB", // Light blue
-        secondary: "#FFC0CB", // Pink
+        primary: "#44C8F5", // Light blue
+        secondary: "#FFBDDF", // Pink
         background: "#FFFFFF", // White (changed from black)
         cardBg: "#F3F4F6", // Light gray for cards (changed from dark gray)
         cardAltBg: "#F9FAFB", // Alternative card background (gray-50)
@@ -12,8 +12,8 @@ const themeValues = {
         text: {
             primary: "#111827", // Near black (changed from white)
             secondary: "#4B5563", // Gray-600 (changed from gray-300)
-            accent: "#3B82F6", // Blue-500 (slightly darker for contrast)
-            subtitle: "#EC4899", // Pink for subtitles (slightly darker)
+            accent: "#44C8F5", // Blue-500 (slightly darker for contrast)
+            subtitle: "#FFBDDF", // Pink for subtitles (slightly darker)
         },
         form: {
             background: "#F9FAFB", // Gray-50 (changed from gray-900)
@@ -21,7 +21,7 @@ const themeValues = {
                 default: "#D1D5DB", // Gray-300 (changed from gray-700)
                 error: "#EF4444", // Red-500
             },
-            focus: "#3B82F6", // Blue-500
+            focus: "#44C8F5", // Blue-500
         },
     },
     typography: {
