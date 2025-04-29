@@ -34,6 +34,63 @@ const themeValues = {
     images: {
         backgroundImage: "/images/gradient-wave-bg.png",
     },
+    components: {
+        qrCodeForm: {
+            input: (theme, hasError) => ({
+                width: "100%",
+                padding: "0.5rem 1rem",
+                backgroundColor: theme.colors.form.background,
+                color: theme.colors.text.primary,
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: hasError
+                    ? theme.colors.form.border.error
+                    : theme.colors.form.border.default,
+                borderRadius: "0.375rem",
+                fontFamily: theme.typography.fontFamily.body,
+                outline: "none",
+                transition: "border-color 0.2s ease-in-out",
+            }),
+            label: (theme) => ({
+                display: "block",
+                marginBottom: "0.5rem",
+                fontSize: "0.875rem",
+                fontWeight: "500",
+                color: theme.colors.text.secondary,
+                fontFamily: theme.typography.fontFamily.subtitle,
+            }),
+            error: (theme) => ({
+                marginTop: "0.25rem",
+                fontSize: "0.875rem",
+                color: theme.colors.form.border.error,
+                fontFamily: theme.typography.fontFamily.body,
+            }),
+            button: (theme) => ({
+                backgroundColor: theme.colors.secondary,
+                color: "black",
+                width: "100%",
+                padding: "0.75rem 1rem",
+                borderRadius: "1.5rem",
+                fontWeight: "700",
+                fontFamily: theme.typography.fontFamily.subtitle,
+                borderWidth: "2px",
+                borderStyle: "solid",
+                borderColor: theme.colors.primary,
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                transition: "all 0.3s ease",
+            }),
+            formControlCss: (theme) => `
+                .form-control:hover {
+                    border-color: ${theme.colors.primary} !important;
+                }
+                .form-control:focus {
+                    border-color: ${theme.colors.primary} !important;
+                    box-shadow: 0 0 0 2px ${theme.colors.primary}33 !important;
+                    outline: none !important;
+                }
+            `,
+        },
+    },
 }
 
 // Create context

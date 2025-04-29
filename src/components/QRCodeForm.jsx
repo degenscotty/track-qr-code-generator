@@ -72,77 +72,15 @@ const QRCodeForm = ({ onGenerateQR }) => {
         }
     }
 
-    const inputStyles = (fieldName) => ({
-        width: "100%",
-        padding: "0.5rem 1rem",
-        backgroundColor: theme.colors.form.background,
-        color: theme.colors.text.primary,
-        borderWidth: "1px",
-        borderStyle: "solid",
-        borderColor: errors[fieldName]
-            ? theme.colors.form.border.error
-            : theme.colors.form.border.default,
-        borderRadius: "0.375rem",
-        fontFamily: theme.typography.fontFamily.body,
-        outline: "none",
-        transition: "border-color 0.2s ease-in-out",
-    })
-
-    const inputHoverStyles = {
-        "&:hover": {
-            borderColor: theme.colors.primary,
-        },
-        "&:focus": {
-            borderColor: theme.colors.primary,
-            boxShadow: `0 0 0 2px ${theme.colors.primary}33`,
-        },
-    }
-
-    const labelStyles = {
-        display: "block",
-        marginBottom: "0.5rem",
-        fontSize: "0.875rem",
-        fontWeight: "500",
-        color: theme.colors.text.secondary,
-        fontFamily: theme.typography.fontFamily.subtitle,
-    }
-
-    const errorStyles = {
-        marginTop: "0.25rem",
-        fontSize: "0.875rem",
-        color: theme.colors.form.border.error,
-        fontFamily: theme.typography.fontFamily.body,
-    }
-
-    const buttonStyles = {
-        backgroundColor: theme.colors.secondary,
-        color: "black",
-        width: "100%",
-        padding: "0.75rem 1rem",
-        borderRadius: "1.5rem",
-        fontWeight: "700",
-        fontFamily: theme.typography.fontFamily.subtitle,
-        borderWidth: "2px",
-        borderStyle: "solid",
-        borderColor: theme.colors.primary,
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-        transition: "all 0.3s ease",
-    }
+    // Get component styles from theme
+    const inputStyles = (fieldName) => theme.components.qrCodeForm.input(theme, errors[fieldName])
+    const labelStyles = theme.components.qrCodeForm.label(theme)
+    const errorStyles = theme.components.qrCodeForm.error(theme)
+    const buttonStyles = theme.components.qrCodeForm.button(theme)
 
     // Create a style element to inject CSS for hover/focus states
     const createStyleElement = () => {
-        return (
-            <style>{`
-                .form-control:hover {
-                    border-color: ${theme.colors.primary} !important;
-                }
-                .form-control:focus {
-                    border-color: ${theme.colors.primary} !important;
-                    box-shadow: 0 0 0 2px ${theme.colors.primary}33 !important;
-                    outline: none !important;
-                }
-            `}</style>
-        )
+        return <style>{theme.components.qrCodeForm.formControlCss(theme)}</style>
     }
 
     return (
